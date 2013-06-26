@@ -1,7 +1,11 @@
 package com.example.testq2;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -52,5 +56,20 @@ public class TestDbAdapter {
 	  }
 	  
 	}
-
+	
+	public List<String>  getdata(){	    
+		 List<String> data = new ArrayList<String>();
+	    Cursor cursor = sDb.rawQuery("Select * from TEST", null);
+	    if(cursor.getCount()>0){
+	    	cursor.moveToFirst();
+	    	while(!cursor.isAfterLast()){
+	    		String name = cursor.getString(1);
+	    		data.add(name);
+	    		cursor.moveToNext();
+	    	}
+	    }
+	    cursor.close();
+		return data;   
+	   
+	}
 }
