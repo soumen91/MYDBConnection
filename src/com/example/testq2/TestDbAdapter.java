@@ -59,7 +59,7 @@ public class TestDbAdapter {
 	
 	public List<String>  getdata(){	    
 		 List<String> data = new ArrayList<String>();
-	    Cursor cursor = sDb.rawQuery("Select * from TEST", null);
+	    Cursor cursor = sDb.query(TestConstant.TABLE_NAME, new String[] {TestConstant.ID,TestConstant.NAME}, null, null, null, null, null);
 	    if(cursor.getCount()>0){
 	    	cursor.moveToFirst();
 	    	while(!cursor.isAfterLast()){
@@ -72,4 +72,27 @@ public class TestDbAdapter {
 		return data;   
 	   
 	}
-}
+    // Updating single contact
+	public boolean UpdateValue(String name){
+		  ContentValues values = new ContentValues();
+		  values.put(TestConstant.NAME, name);
+		  
+		  try{
+			  sDb.beginTransaction();
+			  final boolean state   = sDb.update(TestConstant.TABLE_NAME, values, TestConstant.ID + "="+"1", null)>0;
+			  sDb.setTransactionSuccessful();
+			  return state;
+		  }catch(SQLException e){
+			  throw e;
+		  }finally{
+			  sDb.endTransaction();
+		  }
+		  
+		}
+	public void deleteContact() {
+	    
+	    sDb.delete(TestConstant.TABLE_NAME, TestConstant.ID + " = 4",null);
+	    //sDb.close();
+	}
+		
+	}

@@ -5,7 +5,6 @@ import java.util.List;
 
 import android.os.Bundle;
 import android.app.Activity;
-import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -17,6 +16,9 @@ public class MainActivity extends Activity {
 	private Button mClick;
 	private TestDbAdapter mDb;
 	private Button mShow;
+	private Button mUpDate;
+	private EditText edtxt;
+	private Button mDel;
 	private TextView txtvw;
 	public List<String> lst = new ArrayList<String>();
 
@@ -27,9 +29,13 @@ public class MainActivity extends Activity {
 		mValue = (EditText)findViewById(R.id.editText1);
 		mClick = (Button)findViewById(R.id.button1);
 		txtvw=(TextView)findViewById(R.id.textView1);
-		mDb = TestDbAdapter.createInstance(getApplicationContext());
-		mShow=(Button)findViewById(R.id.button2);
+		edtxt=(EditText)findViewById(R.id.editText2);
 		
+		mShow=(Button)findViewById(R.id.button2);
+		mUpDate=(Button)findViewById(R.id.button3);
+		mDel=(Button)findViewById(R.id.bttndel);
+		
+		mDb = TestDbAdapter.createInstance(getApplicationContext());
 		
 		mClick.setOnClickListener(new OnClickListener() {
 			
@@ -42,6 +48,8 @@ public class MainActivity extends Activity {
 			}
 			}
 		});
+		
+		
 		mShow.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -54,6 +62,28 @@ public class MainActivity extends Activity {
 				}
 			}
 		});
+		
+		mUpDate.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				if(edtxt.getText().toString().trim().length()>0){
+					mDb.UpdateValue(edtxt.getText().toString().trim());
+					edtxt.setText("");
+				}
+				
+			}
+		});
+		
+		mDel.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				mDb.deleteContact();
+				
+			}
+		});
+		
 	}
 
 }
